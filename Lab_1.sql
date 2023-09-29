@@ -48,29 +48,19 @@ CREATE TABLE PROD_PICT
 -- Create Customer Order Table
 CREATE TABLE CUST_ORDER
 (
-    ord_id      VARCHAR2(30) CONSTRAINT PK_Order_ID PRIMARY KEY, 
-    cust_id     VARCHAR2(30) NOT NULL CONSTRAINT FK_Customer_ID REFERENCES CUSTOMER(cust_id),
-    order_date  DATE
+    ord_id      VARCHAR2(15) CONSTRAINT PK_Order_ID PRIMARY KEY, 
+    cust_id     VARCHAR2(15) NOT NULL CONSTRAINT FK_Customer_ID REFERENCES CUSTOMER(cust_id),
+    order_date  DATE DEFAULT SYSDATE
 );
-
-ALTER TABLE CUST_ORDER
-    MODIFY ord_id DEFAULT 'ORD' || LPAD(my_seq.NEXTVAL,5,'0');
-ALTER TABLE CUST_ORDER
-    MODIFY order_date DEFAULT SYSDATE;
 
 -- Create Cart Table
 CREATE TABLE CART 
 (
-    row_id   VARCHAR2(30) CONSTRAINT PK_Row_ID PRIMARY KEY,
-    ord_id   VARCHAR2(30) NOT NULL CONSTRAINT FK_Cart_Order_ID REFERENCES CUST_ORDER(ord_id),
-    prod_id  VARCHAR2(30) NOT NULL CONSTRAINT FK_Product_ID REFERENCES PRODUCT(prod_id),
+    row_id   VARCHAR2(15) CONSTRAINT PK_Row_ID PRIMARY KEY,
+    ord_id   VARCHAR2(15) NOT NULL CONSTRAINT FK_Cart_Order_ID REFERENCES CUST_ORDER(ord_id),
+    prod_id  VARCHAR2(15) NOT NULL CONSTRAINT FK_Product_ID REFERENCES PRODUCT(prod_id),
     quantity NUMBER(16) NOT NULL
 );
-
-ALTER TABLE CART
-    MODIFY row_id DEFAULT 'ROW' || LPAD(my_seq.NEXTVAL,5,'0');
-
-
 
 -- Inserting 3 DATA Rows Into CUSTOMER Table--
 INSERT INTO CUSTOMER (cust_id, username, passwd, first_name, last_name, credit_type, phone)
@@ -125,12 +115,14 @@ END;
 
 -- Increasing the price of all articles by 12% --
 UPDATE PRODUCT
-SET price = price + (price * 0.12);
+	SET price = price + (price * 0.12);
 
 -- Updating the phone number of John Smith
 UPDATE CUSTOMER
-SET phone = '555-123-4567'
-WHERE cust_id = 'CUST1';
+	SET phone = '555-123-4567'
+	WHERE cust_id = 'CUST1';
 
+-- Checking if there is any data in CUST_ORDER table--
+SELECT * FROM CUST_ORDER;
 -- Trying to deleted all rows from CUST_ORDER table --
 DELETE FROM CUST_ORDER;
