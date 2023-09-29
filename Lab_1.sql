@@ -72,7 +72,7 @@ ALTER TABLE CART
 
 
 
--- Inserting 3 DATA Rows Into CUSTOMER Tables --
+-- Inserting 3 DATA Rows Into CUSTOMER Table--
 INSERT INTO CUSTOMER (cust_id, username, passwd, first_name, last_name, credit_type, phone)
 VALUES ('CUST1', 'user1', 'password1', 'John', 'Doe', 'high', '555-123-4567');
 
@@ -83,7 +83,7 @@ INSERT INTO CUSTOMER (cust_id, username, passwd, first_name, last_name, credit_t
 VALUES ('CUST3', 'user3', 'password3', 'Bob', 'Johnson', 'low', '555-789-1234');
 
 
--- Inserting 2 DATA Rows Into PROD_GROUP Table --
+-- Inserting 2 DATA Rows Into PROD_GROUP Table--
 INSERT INTO PROD_GROUP (group_id,group_name)
 VALUES ('groupID1','group1');
 
@@ -91,11 +91,11 @@ INSERT INTO PROD_GROUP (group_id,group_name)
 VALUES ('groupID2','group2');
 
 
---Inserting Two DATA Rows Into PRODUCT Able --
+--Inserting Two DATA Rows Into PRODUCT Able--
 INSERT INTO PRODUCT (prod_id,group_id,prod_name,price)
 VALUES ('prod1','groupID1','Product 1',19.99);
 
---Inserting Two DATA Rows Into PRODUCT Able --
+--Inserting Two DATA Rows Into PRODUCT Able--
 INSERT INTO PRODUCT (prod_id,group_id,prod_name,price)
 VALUES ('prod2','groupID2','Product 2',1.99);
 
@@ -105,10 +105,10 @@ VALUES ('prod2','groupID2','Product 2',1.99);
 DECLARE
     v_ord_id VARCHAR2(30);
 BEGIN
-    -- Generate the order ID using the sequence
+    -- Generating the order ID using the sequence
     SELECT 'ORD' || LPAD(my_seq.NEXTVAL, 5, '0') INTO v_ord_id FROM DUAL;
 
-    -- Insert the order with the generated order ID
+    -- Inserting the order with the generated order ID
     INSERT INTO CUST_ORDER(ord_id, cust_id, order_date)
     VALUES (v_ord_id, 'CUST1', SYSDATE);
     
@@ -122,3 +122,15 @@ BEGIN
     -- Commit the transaction
     COMMIT;
 END;
+
+-- Increasing the price of all articles by 12% --
+UPDATE PRODUCT
+SET price = price + (price * 0.12);
+
+-- Updating the phone number of John Smith
+UPDATE CUSTOMER
+SET phone = '555-123-4567'
+WHERE cust_id = 'CUST1';
+
+-- Trying to deleted all rows from CUST_ORDER table --
+DELETE FROM CUST_ORDER;
